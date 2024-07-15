@@ -1,0 +1,23 @@
+{{- define "payments.fullname" -}}
+{{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "payments.labels" -}}
+app.kubernetes.io/name: {{ include "payments.name" . }}
+helm.sh/chart: {{ include "payments.chart" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{- define "payments.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "payments.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "payments.name" -}}
+{{- .Chart.Name -}}
+{{- end -}}
+
+{{- define "payments.chart" -}}
+{{- .Chart.Name }}-{{ .Chart.Version | replace "+" "_" -}}
+{{- end -}}
